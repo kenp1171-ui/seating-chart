@@ -9,16 +9,26 @@ function handleCreateEvent() {
   localStorage.setItem("events", JSON.stringify(events));
 
   const qrURL = `${window.location.origin}/seating-chart/event.html?id=${eventId}`;
-  generateQR(qrURL);
-  
+  generateQR(qrURL, eventId);
 }
 
-function generateQR(url) {
+function generateQR(url, eventId) {
   const qrDiv = document.getElementById("qrPreview");
   qrDiv.innerHTML = "";
-  new QRCode(qrDiv, url);
-  const link = document.createElement("p");
-link.textContent = url;
-qrDiv.appendChild(link);
 
+  // Show the link
+  const linkText = document.createElement("p");
+  linkText.textContent = url;
+  qrDiv.appendChild(linkText);
+
+  // Generate QR code
+  new QRCode(qrDiv, url);
+
+  // Add a Manage Guests button
+  const manageBtn = document.createElement("button");
+  manageBtn.textContent = "Manage Guests";
+  manageBtn.onclick = () => {
+    window.location.href = `manage-guests.html?id=${eventId}`;
+  };
+  qrDiv.appendChild(manageBtn);
 }

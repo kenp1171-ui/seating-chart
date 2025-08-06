@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Manage Guests</title>
+  <script src="js/guests.js" defer></script>
+</head>
+<body>
+  <h2>Manage Guest List</h2>
+  <p id="eventTitle"></p>
+
+  <input type="file" accept=".csv" onchange="importCSV(event)" />
+  <br><br>
+
+  <table border="1" id="guestTable">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Seat</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</body>
+</html>
