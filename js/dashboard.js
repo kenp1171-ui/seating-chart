@@ -8,7 +8,7 @@ function handleCreateEvent() {
   events.push(event);
   localStorage.setItem("events", JSON.stringify(events));
 
-  const qrURL = `event.html?id=${eventId}`;
+  const qrURL = `https://kenp1171-ui.github.io/seating-chart/event.html?id=${eventId}`;
   generateQR(qrURL);
   
 }
