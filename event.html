@@ -1,34 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Event Guest Check-In</title>
+  <title>Event Details</title>
 
-  <!-- Firebase CDN -->
+  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database-compat.js"></script>
 
-  <!-- Optional QR -->
+  <!-- QR Code Generator -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 
-  <!-- Your Scripts -->
+  <!-- Firebase Config -->
   <script src="js/firebase.js" defer></script>
+  <!-- Page Logic -->
   <script src="js/event.js" defer></script>
 </head>
 <body>
-  <h2 id="eventTitle">Loading event...</h2>
+  <h2 id="eventTitle">Loading...</h2>
+  <p id="eventDate"></p>
 
-  <div id="adminView" style="display: none;">
-    <div id="qrCode"></div><br>
-    <button id="manageGuestsBtn">Manage Guest List</button>
-  </div>
+  <h3>Event QR Code</h3>
+  <div id="qrCode"></div>
+  <a id="downloadQR" href="#" download="event-qr.png">Download QR</a>
 
-  <div id="guestView" style="display: none;">
-    <input type="text" id="guestSearch" placeholder="Enter your name">
-    <button onclick="searchGuest()">Search</button>
-    <div id="guestResult"></div>
-  </div>
+  <h3>Quick Actions</h3>
+  <button id="manageGuestsBtn">Manage Guest List</button>
+  <button id="viewLiveBtn">View Live Site</button>
+  <br><br>
+
+  <label for="fileUpload">Upload Menu / Floor Plan:</label>
+  <input type="file" id="fileUpload">
+
+  <h3>Photo Uploads (Coming Soon)</h3>
+  <p>Guests will be able to upload event memories here.</p>
 </body>
-
 </html>

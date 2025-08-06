@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
   <title>Guest Check-In</title>
+
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database-compat.js"></script>
+
+  <!-- Firebase Config -->
   <script src="js/firebase.js" defer></script>
   <script src="js/guest.js" defer></script>
 </head>
 <body>
-  <h2>Event Check-In</h2>
-  <input id="guestName" type="text" placeholder="Enter your name">
-  <button id="searchBtn">Search</button>
-  <div id="result"></div>
+  <h2>Welcome to the Event</h2>
+  <p id="eventDetails">Loading event...</p>
+
+  <label for="guestSearch">Enter your name:</label><br>
+  <input type="text" id="guestSearch" placeholder="e.g. Juan Dela Cruz">
+  <button onclick="searchGuest()">Search</button>
+
+  <div id="result" style="margin-top: 20px;"></div>
 </body>
 </html>

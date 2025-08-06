@@ -10,11 +10,17 @@
 
   <!-- Your Scripts -->
   <script src="js/firebase.js" defer></script>
-  <script src="js/guests.js" defer></script>
+  <script src="js/manage-guest.js" defer></script>
 </head>
 <body>
   <h2 id="guestTitle">Guest List</h2>
-  <button onclick="addGuestPrompt()">Add Guest</button>
+
+  <!-- Add Guest Form -->
+  <input type="text" id="guestName" placeholder="Guest Name">
+  <input type="text" id="guestTable" placeholder="Table Number">
+  <button onclick="addGuest()">Add Guest</button>
+
+  <!-- Guest List Output -->
   <ul id="guestList"></ul>
 </body>
 </html>
