@@ -1,0 +1,48 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+}
+
+.search {
+  margin-bottom: 20px;
+}
+
+.tables-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.table {
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  position: relative;
+  text-align: center;
+}
+
+.table-name {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.seat {
+  width: 40px;
+  height: 40px;
+  background-color: lightgray;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  transition: background-color 0.3s;
+}
+
+.highlight {
+  background-color: gold;
+}
