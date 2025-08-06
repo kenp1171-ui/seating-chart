@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Manage Guests</title>
+  <meta charset="UTF-8" />
+  <title>Manage Guest List</title>
+
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database-compat.js"></script>
+
+  <!-- Your Scripts -->
+  <script src="js/firebase.js" defer></script>
   <script src="js/guests.js" defer></script>
 </head>
 <body>
-  <h2>Manage Guest List</h2>
-  <p id="eventTitle"></p>
-
-  <input type="file" accept=".csv" onchange="importCSV(event)" />
-  <br><br>
-
-  <table border="1" id="guestTable">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Seat</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <h2 id="guestTitle">Guest List</h2>
+  <button onclick="addGuestPrompt()">Add Guest</button>
+  <ul id="guestList"></ul>
 </body>
 </html>

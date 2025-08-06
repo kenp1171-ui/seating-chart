@@ -1,14 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Event Check-In</title>
+  <meta charset="UTF-8">
+  <title>Event Guest Check-In</title>
+
+  <!-- Firebase CDN -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database-compat.js"></script>
+
+  <!-- Optional QR -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+
+  <!-- Your Scripts -->
+  <script src="js/firebase.js" defer></script>
   <script src="js/event.js" defer></script>
 </head>
 <body>
-  <h2>Event Check-In</h2>
-  <input type="text" id="guestName" placeholder="Enter your name" />
-  <button onclick="findGuest()">Search</button>
-  <div id="result" style="margin-top: 20px;"></div>
+  <h2 id="eventTitle">Loading event...</h2>
+
+  <div id="adminView" style="display: none;">
+    <div id="qrCode"></div><br>
+    <button id="manageGuestsBtn">Manage Guest List</button>
+  </div>
+
+  <div id="guestView" style="display: none;">
+    <input type="text" id="guestSearch" placeholder="Enter your name">
+    <button onclick="searchGuest()">Search</button>
+    <div id="guestResult"></div>
+  </div>
 </body>
+
 </html>

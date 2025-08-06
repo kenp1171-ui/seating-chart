@@ -1,38 +1,86 @@
-function getEventIdFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("id");
+const eventId = new URLSearchParams(window.location.search).get("id");
+
+if (!eventId) {
+  alert("Event ID not found.");
+  window.location.href = "index.html";
 }
 
-function findGuest() {
-  const name = document.getElementById("guestName").value.toLowerCase();
-  const eventId = getEventIdFromURL();
-  const resultDiv = document.getElementById("result");
+const eventRef = firebase.database().ref("events/" + eventId);
+const guestRef = firebase.database().ref("guests/" + eventId);
 
-  const guestList = {
-    "kenneth pabalan": "Seat 1",
-    "jane doe": "Seat 2",
-    "john smith": "Seat 3"
-  };
+eventRef.once("value").then((snapshot) => {
+  const event = snapshot.val();
+  document.getElementById("eventTitle").textContent = `${event.name} - ${event.date}`;
+});
 
-  if (guestList[name]) {
-    resultDiv.innerHTML = `
-      <p><strong>Found:</strong> ${guestList[name]}</p>
-      <button onclick="checkIn('${name}')">Check-In</button>
-    `;
+// Determine if admin or guest
+firebase.auth().onAuthStateChanged((user) => {
+  if (user) {
+    // Admin view
+    document.getElementById("adminView").style.display = "block";
+
+    // Generate QR code
+    new QRCode(document.getElementById("qrCode"), {
+      text: `https://kenp1171-ui.github.io/seating-chart/event.html?id=${eventId}`,
+      width: 128,
+      height: 128
+    });
+
+    // Manage guests button
+    document.getElementById("manageGuestsBtn").onclick = () => {
+      window.location.href = `manage-guests.html?id=${eventId}`;
+    };
   } else {
-    resultDiv.innerHTML = "<p>Guest not found.</p>";
+    // Guest view
+    document.getElementById("guestView").style.display = "block";
   }
-}
+});
 
-function checkIn(name) {
-  const eventId = getEventIdFromURL();
-  let checkIns = JSON.parse(localStorage.getItem(`${eventId}-checkins`) || "[]");
+function searchGuest() {
+  const query = document.getElementById("guestSearch").value.trim().toLowerCase();
+  const resultDiv = document.getElementById("guestResult");
+  resultDiv.innerHTML = "";
 
-  if (!checkIns.includes(name)) {
-    checkIns.push(name);
-    localStorage.setItem(`${eventId}-checkins`, JSON.stringify(checkIns));
-    alert("Checked in successfully!");
-  } else {
-    alert("Already checked in.");
+  if (!query) {
+    resultDiv.textContent = "Please enter your name.";
+    return;
   }
+
+  guestRef.once("value", (snapshot) => {
+    let found = false;
+
+    snapshot.forEach((child) => {
+      const guest = child.val();
+      const guestKey = child.key;
+
+      if (guest.name.toLowerCase() === query) {
+        found = true;
+
+        const div = document.createElement("div");
+        div.innerHTML = `
+          <p>Name: <strong>${guest.name}</strong></p>
+          <p>Table: <strong>${guest.table}</strong></p>
+          <p>Status: <strong>${guest.checkedIn ? "✅ Checked in" : "❌ Not checked in"}</strong></p>
+        `;
+
+        if (!guest.checkedIn) {
+          const btn = document.createElement("button");
+          btn.textContent = "Check In";
+          btn.onclick = () => {
+            guestRef.child(guestKey).update({ checkedIn: true }).then(() => {
+              alert("Check-in successful!");
+              searchGuest(); // refresh
+            });
+          };
+          div.appendChild(btn);
+        }
+
+        resultDiv.appendChild(div);
+      }
+    });
+
+    if (!found) {
+      resultDiv.textContent = "Guest not found. Please check your spelling.";
+    }
+  });
 }

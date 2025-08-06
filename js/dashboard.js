@@ -1,34 +1,29 @@
-function handleCreateEvent() {
-  const name = prompt("Enter event name:");
-  const date = prompt("Enter event date (YYYY-MM-DD):");
-  const eventId = `event-${Date.now()}`;
-  const event = { id: eventId, name, date };
+function createNewEvent() {
+  const name = prompt("Event name:");
+  const date = prompt("Event date (e.g., 2025-08-15):");
 
-  let events = JSON.parse(localStorage.getItem("events") || "[]");
-  events.push(event);
-  localStorage.setItem("events", JSON.stringify(events));
+  if (!name || !date) {
+    alert("Event name and date are required.");
+    return;
+  }
 
-  const qrURL = `${window.location.origin}/seating-chart/event.html?id=${eventId}`;
-  generateQR(qrURL, eventId);
+  const db = firebase.database();
+  const newRef = db.ref("events").push();
+  newRef.set({ name, date });
 }
 
-function generateQR(url, eventId) {
-  const qrDiv = document.getElementById("qrPreview");
-  qrDiv.innerHTML = "";
+firebase.database().ref("events").on("value", (snapshot) => {
+  const list = document.getElementById("eventList");
+  list.innerHTML = "";
 
-  // Show the link
-  const linkText = document.createElement("p");
-  linkText.textContent = url;
-  qrDiv.appendChild(linkText);
-
-  // Generate QR code
-  new QRCode(qrDiv, url);
-
-  // Add a Manage Guests button
-  const manageBtn = document.createElement("button");
-  manageBtn.textContent = "Manage Guests";
-  manageBtn.onclick = () => {
-    window.location.href = `manage-guests.html?id=${eventId}`;
-  };
-  qrDiv.appendChild(manageBtn);
-}
+  snapshot.forEach((child) => {
+    const event = child.val();
+    const li = document.createElement("li");
+    li.textContent = `${event.name} (${event.date})`;
+    li.style.cursor = "pointer";
+    li.onclick = () => {
+      window.location.href = `event.html?id=${child.key}`;
+    };
+    list.appendChild(li);
+  });
+});

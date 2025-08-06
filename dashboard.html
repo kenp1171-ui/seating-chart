@@ -3,12 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <title>Dashboard</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Firebase Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.3.1/firebase-database-compat.js"></script>
+
+  <!-- Your Scripts -->
+  <script src="js/firebase.js" defer></script>
   <script src="js/dashboard.js" defer></script>
 </head>
 <body>
-  <h2>Admin Dashboard</h2>
-  <button onclick="handleCreateEvent()">Create Event</button>
-  <div id="qrPreview" style="margin-top: 20px;"></div>
+  <h2>Event Dashboard</h2>
+  <button onclick="createNewEvent()">Create Event</button>
+  <ul id="eventList"></ul>
 </body>
 </html>

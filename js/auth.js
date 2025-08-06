@@ -1,12 +1,12 @@
 function login() {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+  const email = document.getElementById('email').value;
+  const password = document.getElementById('password').value;
 
-  if (username === "admin" && password === "password123") {
-    localStorage.setItem("authenticated", "true");
-    window.location.href = "dashboard.html";
-  } else {
-    alert("Invalid login");
-  }
-  return false;
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.href = 'dashboard.html';
+    })
+    .catch((error) => {
+      alert('Login failed: ' + error.message);
+    });
 }
